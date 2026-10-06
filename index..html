@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>సహాయం దగ్గరలో</title>
+<style>
+*{box-sizing:border-box} body{margin:0;background:#eef3f7;font-family:Arial,"Noto Sans Telugu",sans-serif;color:#17202a}
+.app{max-width:430px;margin:auto;min-height:100vh;background:#fff}
+header{padding:22px 20px 16px;background:#1677ff;color:#fff;border-radius:0 0 24px 24px}
+header h1{margin:0;font-size:25px} header p{margin:7px 0 0;opacity:.9}
+main{padding:18px 16px 90px}
+.card{background:#fff;border:1px solid #e5e9ef;border-radius:18px;padding:16px;margin-bottom:14px;box-shadow:0 3px 12px #0000000b}
+.sos{width:100%;padding:18px;border:0;border-radius:16px;background:#e53935;color:white;font-size:20px;font-weight:bold}
+h2{font-size:19px;margin:8px 0 14px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+button{font:inherit;cursor:pointer}.tile{border:1px solid #e1e6ec;background:#f8fafc;border-radius:16px;padding:17px;text-align:left}
+.tile b{display:block;margin-top:8px}.tile span{font-size:25px}
+input,textarea,select{width:100%;padding:12px;border:1px solid #ccd4dd;border-radius:12px;margin:7px 0;font:inherit}
+.primary{width:100%;border:0;border-radius:12px;padding:13px;background:#1677ff;color:#fff;font-weight:bold}
+.hidden{display:none}.request{border-left:5px solid #1677ff}
+nav{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(430px,100%);display:flex;background:#fff;border-top:1px solid #ddd;padding:9px 5px;z-index:5}
+nav button{flex:1;border:0;background:white;padding:8px 3px;font-size:12px;color:#4d5965}nav button b{display:block;font-size:19px}
+.small{font-size:13px;color:#65717e}.success{padding:12px;border-radius:12px;background:#e9f8ef;color:#176b39;margin-bottom:12px}
+</style>
+</head>
+<body>
+<div class="app">
+<header><h1>సహాయం దగ్గరలో 🤝</h1><p>మీ దగ్గరలోనే… ఒక సహాయం!</p></header>
+
+<main>
+<section id="home">
+  <div class="card">
+    <button class="sos" onclick="show('ask')">🆘 సహాయం కావాలి</button>
+    <p class="small">అత్యవసర పరిస్థితుల్లో అధికారిక అత్యవసర సేవలను కూడా సంప్రదించండి.</p>
+  </div>
+  <h2>ఏ సహాయం కావాలి?</h2>
+  <div class="grid">
+    <button class="tile" onclick="setType('రక్త సహాయం')"><span>🩸</span><b>రక్త సహాయం</b></button>
+    <button class="tile" onclick="setType('వ్యక్తిగత సహాయం')"><span>🤝</span><b>వ్యక్తిగత సహాయం</b></button>
+    <button class="tile" onclick="setType('పోయిన వస్తువు')"><span>🔎</span><b>పోయిన వస్తువు</b></button>
+    <button class="tile" onclick="setType('సమాచారం')"><span>ℹ️</span><b>సమాచారం</b></button>
+  </div>
+  <h2>దగ్గరలోని అభ్యర్థనలు</h2>
+  <div class="card request"><b>🩸 రక్త సహాయం అవసరం</b><p class="small">మీ ప్రాంతంలో ఒక అభ్యర్థన వచ్చింది.</p><button class="primary" onclick="alert('సహాయం చేయడానికి ముందుగా వివరాలను ధృవీకరించండి.')">నేను సహాయం చేస్తాను</button></div>
+</section>
+
+<section id="ask" class="hidden">
+  <h2>సహాయం కోరండి</h2>
+  <div id="msg"></div>
+  <div class="card">
+    <label>సహాయం రకం</label>
+    <select id="type"><option>రక్త సహాయం</option><option>వ్యక్తిగత సహాయం</option><option>పోయిన వస్తువు</option><option>సమాచారం</option><option>ఇతర సహాయం</option></select>
+    <label>వివరాలు</label><textarea id="details" rows="4" placeholder="మీకు ఏ సహాయం కావాలో వివరించండి"></textarea>
+    <label>ప్రాంతం</label><input id="area" placeholder="ఉదా: మీ ప్రాంతం / పట్టణం">
+    <button class="primary" onclick="postRequest()">అభ్యర్థన పంపండి</button>
+  </div>
+</section>
+
+<section id="help" class="hidden">
+  <h2>నేను సహాయం చేయాలి</h2>
+  <div class="card"><b>🤝 సహాయకుడిగా చేరండి</b><p class="small">మీకు వీలైనప్పుడు సమీపంలోని సహాయ అభ్యర్థనలకు స్పందించండి. వ్యక్తిగత సమాచారం పంచుకునే ముందు జాగ్రత్తగా ధృవీకరించండి.</p><button class="primary" onclick="alert('మీరు సహాయకుడిగా నమోదు కావడానికి ఈ ప్రోటోటైప్‌లో ఎంపిక చేశారు.')">సహాయకుడిగా నమోదు</button></div>
+</section>
+
+<section id="profile" class="hidden">
+  <h2>నా ప్రొఫైల్</h2>
+  <div class="card">
+    <input placeholder="మీ పేరు">
+    <input placeholder="మొబైల్ నంబర్">
+    <button class="primary" onclick="alert('ప్రొఫైల్ సేవ్ అయింది (డెమో).')">సేవ్ చేయండి</button>
+  </div>
+  <div class="card"><b>🛡️ భద్రత</b><p class="small">అభ్యర్థనల్లో అవసరమైన సమాచారాన్ని మాత్రమే పంచుకోండి. అనుమానాస్పద అభ్యర్థనలను report చేసే సదుపాయం production versionలో జోడించాలి.</p></div>
+</section>
+</main>
+
+<nav>
+<button onclick="show('home')"><b>🏠</b>హోమ్</button>
+<button onclick="show('ask')"><b>🆘</b>సహాయం</button>
+<button onclick="show('help')"><b>🤝</b>సహాయం చేయాలి</button>
+<button onclick="show('profile')"><b>👤</b>ప్రొఫైల్</button>
+</nav>
+</div>
+
+<script>
+function show(id){
+ ['home','ask','help','profile'].forEach(x=>document.getElementById(x).classList.toggle('hidden',x!==id));
+ window.scrollTo(0,0);
+}
+function setType(t){document.getElementById('type').value=t;show('ask')}
+function postRequest(){
+ const d=document.getElementById('details').value.trim(), a=document.getElementById('area').value.trim();
+ if(!d||!a){alert('దయచేసి వివరాలు మరియు ప్రాంతం నమోదు చేయండి.');return}
+ document.getElementById('msg').innerHTML='<div class="success">✅ మీ అభ్యర్థన డెమోగా పంపబడింది.</div>';
+ document.getElementById('details').value='';
+}
+</script>
+</body>
+</html>
